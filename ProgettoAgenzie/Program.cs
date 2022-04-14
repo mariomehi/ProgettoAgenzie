@@ -11,6 +11,12 @@ namespace ProgettoAgenzie
             Agenzia ag2 = new AgenziaAer("ITA");
             Agenzia ag3 = new AgenziaAer("Rayanair");
 
+            Controllore con1 = new Controllore("C02", "Mario", ag1);
+            Controllore con2 = new Controllore("C05", "Eli", ag1);
+
+            ag1.AggMezz(5, con1, 600);
+            ag1.AggMezz(6, con2, 600);
+
             Console.WriteLine("*** Benvenuto! Seleziona un agenzia: ***");
             Console.WriteLine("--- 1. Alitalia ---");
             Console.WriteLine("--- 2. ITA ---");
@@ -26,33 +32,20 @@ namespace ProgettoAgenzie
             Console.WriteLine("*** 2. Modifica Biglietto ***");
             Console.WriteLine("*** 0. Esci ***");
             int scelta = 0;
-            //scelta = Convert.ToInt32(Console.ReadLine());
-
-            do
-            {
+            do {
                 scelta = Convert.ToInt32(Console.ReadLine());
                 if (scelta == 1) {
                     Console.WriteLine("Acquista Biglietto:");
                     ag1.AcquistaB(pass1, ag1);
+                    ag1.Abiglietti();
                 } else if (scelta == 2) {
                     Console.WriteLine("Modifica Biglietto:");
                 } else Console.WriteLine("Scelta non valida!");
 
-            } while (scelta != 0);  
+            } while (scelta != 0);
 
+            Console.WriteLine("Biglietti in agenzia:");
 
-        }
-
-        public void init()
-        {
-            Agenzia ag1 = new AgenziaAer("Alitalia");
-            Agenzia ag2 = new AgenziaAer("ITA");
-
-            Controllore con1 = new Controllore("C02", "Mario", ag1);
-            Controllore con2 = new Controllore("C05", "Eli", ag1);
-
-            ag1.AggMezz(5, con1, 600);
-            ag1.AggMezz(6, con2, 600);
         }
     }
     public abstract class Agenzia {
@@ -64,6 +57,7 @@ namespace ProgettoAgenzie
         public abstract Biglietto AcquistaB(Passeggero pass, Agenzia age);
         public abstract void ModificaB(Biglietto nb);
         public abstract MezzoTrasporto AggMezz(int num, Controllore c, int pass);
+        public abstract void Abiglietti();
     }
     public class AgenziaAer : Agenzia {
         public AgenziaAer(string ag) {
@@ -74,8 +68,7 @@ namespace ProgettoAgenzie
 
         public int _numb = 0;
         public override Biglietto AcquistaB(Passeggero pass, Agenzia age) {
-            Passeggero pers1 = new Passeggero("Mario", "Mehi");
-            Biglietto bi = new Biglietto(pers1);
+            Biglietto bi = new Biglietto(pass, age, mezzoTrasporto[5]);
             biglietto[_numb] = bi;
             _numb++;
             return bi;
@@ -95,6 +88,16 @@ namespace ProgettoAgenzie
         }
         public void assContr(MezzoTrasporto m, Controllore c){
             //_mezzoTrasporto.
+        }
+        public override void Abiglietti()
+        {
+            foreach (Biglietto bi in biglietto) {
+                Console.WriteLine(bi._data);
+                Console.WriteLine(bi._persona);
+                Console.WriteLine(bi._agenzia);
+                Console.WriteLine(bi._mezzoT);
+                //Console.WriteLine(bi._numID);
+            }
         }
     }
     public class MezzoTrasporto {
@@ -117,13 +120,14 @@ namespace ProgettoAgenzie
         public string _agenzia;
         public string _persona;
         public string pagamento;
-        private int numID;
+        private int numID=0;
 
-        public Biglietto(Persona pers){
+        public Biglietto(Persona pers, Agenzia age, MezzoTrasporto mezzoTrasporto){
             _data = DateTime.Now;
             _persona = pers._cognome;
-            //_agenzia = age._nomeAg;
-            //_mezzoT = mezzt._numID; //mezzo assegnato
+            _agenzia = age._nomeAg;
+            numID++;
+            //_mezzoT = mezzoTrasporto._numID; //mezzo assegnato
         }
     }
     public class Persona{
