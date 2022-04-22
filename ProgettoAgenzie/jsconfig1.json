@@ -1,0 +1,14 @@
+{
+    "Treni": {
+        "T1Partenza": "Roma",
+        "T1Ora-Partenza": "10:00",
+        "T1Arrivo": "Milano",
+        "T1Ora-Arrivo": "22:00",
+        "T1Fermate": [ "Roma", "Firenze", "Bologna", "Milano" ],
+        "T2Partenza": "Genova",
+        "T2Ora-Partenza": "10:00",
+        "T2Arrivo": "Napoli",
+        "T2Ora-Arrivo": "22:00",
+        "T2Fermate": [ "Genova", "Torino", "Firenze", "Napoli" ]
+    }
+}
